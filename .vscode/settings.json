@@ -1,0 +1,6 @@
+{
+    "lua.diagnostics.ignoredFiles": [
+        "archives/**"
+    ],
+    "zig.zls.warnStyle": true
+}

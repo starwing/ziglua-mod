@@ -1,0 +1,7 @@
+archives
+.zig-cache
+zig-out
+zig-pkg
+apis.txt
+base_apis.txt
+diff_apis.txt

@@ -134,8 +134,6 @@ fn setupLua(
     var flags = try std.ArrayList([]const u8).initCapacity(b.allocator, 4);
     defer flags.deinit(b.allocator);
 
-    const shared = b.option(bool, "shared", "Build Lua as a shared library") orelse false;
-
     for (b.option(
         []const []const u8,
         "luadef",
@@ -146,7 +144,7 @@ fn setupLua(
     switch (target.result.os.tag) {
         .windows => {
             try flags.append(b.allocator, "-DLUA_USE_WINDOWS");
-            if (shared) try flags.append(b.allocator, "-DLUA_BUILD_AS_DLL");
+            if (options.shared) try flags.append(b.allocator, "-DLUA_BUILD_AS_DLL");
         },
         .linux => try flags.append(b.allocator, "-DLUA_USE_LINUX"),
         .macos => try flags.append(b.allocator, "-DLUA_USE_MACOSX"),
@@ -164,7 +162,7 @@ fn setupLua(
     return b.addLibrary(.{
         .name = "lua",
         .root_module = mod,
-        .linkage = if (shared) .dynamic else .static,
+        .linkage = if (options.shared) .dynamic else .static,
     });
 }
 

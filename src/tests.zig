@@ -529,17 +529,17 @@ test "string buffers" {
 
     // TODO: maybe implement this for all langs?
     b = buffer.initSize(L, 20);
-    @memcpy(b[0..20], "a" ** 20);
+    @memcpy(b[0..20], &@as([20]u8, @splat('a')));
     buffer.pushResultSize(20);
 
     if (comptime !lua.lang.eql(.lua54)) return;
     try expectEqual(20, buffer.len());
     buffer.sub(10);
     try expectEqual(10, buffer.len());
-    try expectEqualStrings("a" ** 10, buffer.addr());
+    try expectEqualStrings(&@as([10]u8, @splat('a')), buffer.addr());
 
     buffer.addGSub(" append", "append", "appended");
-    try expectEqualStrings("a" ** 10 ++ " appended", buffer.addr());
+    try expectEqualStrings(&@as([10]u8, @splat('a')) ++ " appended", buffer.addr());
 }
 
 test "global table" {

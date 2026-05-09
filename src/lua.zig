@@ -1981,7 +1981,7 @@ pub const DebugInfo = struct {
     is_tail_call: bool = false,
     /// Index of the first value transferred (Lua 5.4+).
     first_transfer: i32 = 0,
-    short_src: [id_size]u8 = [_]u8{0} ** id_size,
+    short_src: [id_size]u8 = @splat(0),
     /// Active function (private, used by `getInfo`).
     _ci: if (lang.eql(.lua51)) c_int else c_voidp =
         if (lang.eql(.lua51)) 0 else null,
@@ -2094,7 +2094,7 @@ pub const DebugInfo = struct {
                 @intCast(raw.ftransfer)
             else
                 1,
-            .short_src = if (what.S) raw.short_src else [_]u8{0} ** id_size,
+            .short_src = if (what.S) raw.short_src else @splat(0),
             ._ci = raw._ci,
         };
     }
@@ -2143,7 +2143,7 @@ pub const InfoWhat = packed struct {
     L: bool = false,
 
     fn toWhat(self: @This()) [10:0]u8 {
-        var str = [_:0]u8{0} ** 10;
+        var str: [10:0]u8 = @splat(0);
         var index: u8 = 0;
         inline for (std.meta.fields(@This())) |f| {
             if (@field(self, f.name)) {

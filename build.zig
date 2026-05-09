@@ -85,7 +85,7 @@ pub fn build(b: *std.Build) !void {
 fn setupTestStep(
     b: *std.Build,
     target: std.Build.ResolvedTarget,
-    optimize: std.builtin.OptimizeMode,
+    optimize: std.lang.OptimizeMode,
 ) !void {
     const tests = b.addTest(.{
         .name = "test",
@@ -112,7 +112,7 @@ fn setupLua(
     b: *std.Build,
     options: Options,
     target: std.Build.ResolvedTarget,
-    optimize: std.builtin.OptimizeMode,
+    optimize: std.lang.OptimizeMode,
 ) !*std.Build.Step.Compile {
     const lang_name = @tagName(options.lang);
     const lua_dep = b.lazyDependency(lang_name, .{}) orelse {

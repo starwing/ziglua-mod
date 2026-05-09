@@ -2173,7 +2173,7 @@ inline fn api(comptime name: anytype) ApiType(name) {
     return @extern(ApiType(name), extName(name));
 }
 
-inline fn extName(comptime name: anytype) std.builtin.ExternOptions {
+inline fn extName(comptime name: anytype) std.lang.ExternOptions {
     return .{ .name = @tagName(name) };
 }
 
@@ -2255,7 +2255,7 @@ inline fn DeclType(comptime dt: type) type {
     return @Pointer(.one, .{ .@"const" = true }, cf, null);
 }
 
-inline fn paramTypes(comptime params: []const std.builtin.Type.Fn.Param) [params.len]type {
+inline fn paramTypes(comptime params: []const std.lang.Type.Fn.Param) [params.len]type {
     var types: [params.len]type = undefined;
     for (params, &types) |param, *t|
         t.* = TypeMap(param.type orelse @compileError("unsupported type"));
